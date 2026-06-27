@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projeto Final — Banco de Dados · Eng. da Computação · UEMA</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --ink: #1a2535;
+    --paper: #f4f7fb;
+    --cream: #e8eef6;
+    --rust: #2e6da4;
+    --gold: #fcb72e;
+    --deep: #003366;
+    --muted: #547799;
+    --rule: #b0c4d8;
+    --green: #056340;
+    --blue: #337ab7;
+    --purple: #2e6da4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.75;
+    font-size: 16px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--deep);
+    color: var(--paper);
+    padding: 3rem 2rem 2.5rem;
+    border-bottom: 6px solid var(--gold);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓';
+    position: absolute; top: 0; left: 0; right: 0;
+    font-size: 8px; letter-spacing: -1px; line-height: 1;
+    color: rgba(252,183,46,0.06);
+    font-family: monospace;
+    word-break: break-all;
+    white-space: normal;
+    height: 100%;
+    overflow: hidden;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .course-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  header h1 em { color: var(--gold); font-style: italic; }
+  .subtitle {
+    font-size: 1rem;
+    color: rgba(245,240,232,0.75);
+    margin-bottom: 1.4rem;
+    font-weight: 300;
+    max-width: 660px;
+  }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(245,240,232,0.6);
+    border-top: 1px solid rgba(252,183,46,0.35);
+    padding-top: 1rem;
+  }
+  .meta-row strong { color: var(--gold); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 0.5rem;
+    margin: 3rem 0 1.5rem;
+  }
+  .section-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    color: var(--deep);
+    font-weight: 400;
+  }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-left: 4px solid var(--gold);
+    background: var(--cream);
+    padding: 1.1rem 1.3rem;
+    margin: 1.4rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout.rust  { border-color: var(--rust); }
+  .callout.green { border-color: var(--green); }
+  .callout.blue  { border-color: var(--blue); }
+  .callout.purple{ border-color: var(--purple); }
+  .callout-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+  .callout.rust   .callout-title { color: var(--rust); }
+  .callout.green  .callout-title { color: var(--green); }
+  .callout.blue   .callout-title { color: var(--blue); }
+  .callout.purple .callout-title { color: var(--purple); }
+  .callout p { font-size: 0.95rem; }
+  .callout ul, .callout ol { margin-left: 1.4rem; font-size: 0.95rem; }
+  .callout li { margin-bottom: 0.3rem; }
+
+  /* ── ENTREGÁVEL CARD ── */
+  .entregavel-card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    margin: 1.2rem 0;
+    overflow: hidden;
+  }
+  .entregavel-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--deep);
+    color: var(--paper);
+    padding: 0.85rem 1.2rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .entregavel-header:hover { background: #3d2f1e; }
+  .entregavel-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .entregavel-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    color: #fff;
+    flex: 1;
+  }
+  .entregavel-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    background: var(--gold);
+    color: var(--deep);
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .entregavel-chevron {
+    font-size: 0.75rem;
+    color: var(--gold);
+    transition: transform 0.2s;
+  }
+  .entregavel-card.open .entregavel-chevron { transform: rotate(180deg); }
+  .entregavel-body {
+    display: none;
+    padding: 1.4rem 1.4rem 1.4rem 1.6rem;
+    background: #fff;
+    border-top: 1px solid var(--rule);
+  }
+  .entregavel-card.open .entregavel-body { display: block; }
+  .entregavel-body p, .entregavel-body li { font-size: 0.95rem; }
+  .entregavel-body ul, .entregavel-body ol { margin-left: 1.4rem; margin-top: 0.5rem; }
+  .entregavel-body li { margin-bottom: 0.45rem; }
+  .entregavel-body h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 1.2rem 0 0.5rem;
+  }
+
+  /* ── CONSULTAS GRID ── */
+  .consultas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.9rem;
+    margin: 1rem 0;
+  }
+  .consulta-item {
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+    padding: 0.75rem 1rem;
+  }
+  .consulta-item.nivel-1 { border-left-color: var(--green); }
+  .consulta-item.nivel-2 { border-left-color: var(--blue); }
+  .consulta-item.nivel-3 { border-left-color: var(--deep); }
+  .consulta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+  .consulta-desc { font-size: 0.88rem; line-height: 1.45; }
+
+  /* ── RUBRICA TABLE ── */
+  table.rubrica {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.88rem;
+  }
+  table.rubrica thead tr {
+    background: var(--deep);
+    color: var(--paper);
+  }
+  table.rubrica thead th {
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  table.rubrica tbody tr:nth-child(even) { background: var(--cream); }
+  table.rubrica tbody tr:nth-child(odd)  { background: #fff; }
+  table.rubrica tbody td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  table.rubrica tbody td:last-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    color: var(--rust);
+    white-space: nowrap;
+  }
+  table.rubrica tfoot td {
+    padding: 0.6rem 0.9rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--deep);
+    background: var(--cream);
+    border-top: 2px solid var(--rule);
+  }
+
+  /* ── TECH STACK BADGES ── */
+  .stack-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0.8rem 0;
+  }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+  }
+  /* ── BADGES DE STACK ── */
+  .badge-java   { background: #fff8e1; color: #7a4a00; border: 1px solid #fcb72e; }
+  .badge-spring { background: #e8f5ee; color: #056340; border: 1px solid #a5d6b8; }
+  .badge-mysql  { background: #e3eef8; color: #003366; border: 1px solid #90b8d8; }
+  .badge-rest   { background: #e3eef8; color: #2e6da4; border: 1px solid #90b8d8; }
+  .badge-git    { background: #edf3fa; color: #003366; border: 1px solid #b0c4d8; }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.45rem;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    width: 2px;
+    background: var(--rule);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 1.1rem;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -1.63rem;
+    top: 0.45rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .tl-item.final::before { background: var(--rust); box-shadow: 0 0 0 2px var(--rust); }
+  .tl-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .tl-item.final .tl-date { color: var(--rust); }
+  .tl-desc { font-size: 0.92rem; }
+
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85em;
+    background: var(--cream);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+    color: var(--rust);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep);
+    color: rgba(245,240,232,0.5);
+    text-align: center;
+    padding: 1.5rem 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    border-top: 3px solid var(--gold);
+  }
+
+  p { margin-bottom: 0.8rem; }
+  p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 600px) {
+    header { padding: 2rem 1rem 1.5rem; }
+    main { padding: 1.5rem 1rem 3rem; }
+    .consultas-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <p class="course-label">// Banco de Dados · Engenharia da Computação · UEMA · Prof. Luís Carlos Costa Fonseca</p>
+    <h1>Projeto Final —<br><em>Backend Java Spring Boot</em></h1>
+    <p class="subtitle">Desenvolvimento de uma aplicação backend com CRUD completo e consultas SQL nativas sobre o banco de dados projetado pela equipe.</p>
+    <div class="meta-row">
+      <span><strong>Professor:</strong> Luís Carlos Costa Fonseca</span>
+      <span><strong>Disciplina:</strong> Banco de Dados</span>
+      <span><strong>Formato:</strong> Equipe (3–4 integrantes)</span>
+      <span><strong>Entrega:</strong> Apresentação + Repositório</span>
+      <span><strong>Valor:</strong> 10,0 pontos</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── VISÃO GERAL ── -->
+  <div class="section-header">
+    <span class="section-num">01 —</span>
+    <h2>Visão Geral do Projeto</h2>
+  </div>
+
+  <p>
+    Cada equipe deverá desenvolver uma <strong>aplicação backend</strong> em Java com Spring Boot que sirva de camada de acesso ao banco de dados projetado durante a disciplina. O objetivo é colocar em prática os conceitos de modelagem relacional, SQL e integração de banco de dados com uma aplicação real, seguindo boas práticas de desenvolvimento de software.
+  </p>
+
+  <div class="callout">
+    <div class="callout-title">📌 Premissa</div>
+    <p>
+      O banco de dados já foi projetado pela equipe (modelo ER + DDL). O projeto final consiste em <strong>construir a aplicação que o consome</strong> — expondo suas entidades via API REST e implementando consultas analíticas relevantes ao domínio do sistema.
+    </p>
+  </div>
+
+  <div class="stack-badges">
+    <span class="badge badge-java">Java 17+</span>
+    <span class="badge badge-spring">Spring Boot 3.x</span>
+    <span class="badge badge-spring">Spring Data JPA</span>
+    <span class="badge badge-mysql">MySQL 8+</span>
+    <span class="badge badge-rest">REST API</span>
+    <span class="badge badge-git">Git + GitHub</span>
+  </div>
+
+  <!-- ── REQUISITOS ── -->
+  <div class="section-header">
+    <span class="section-num">02 —</span>
+    <h2>Requisitos do Projeto</h2>
+  </div>
+
+  <!-- ENTREGÁVEL 1 -->
+  <div class="entregavel-card open">
+    <div class="entregavel-header" onclick="toggleCard(this)">
+      <span class="entregavel-num">REQ 01</span>
+      <span class="entregavel-title">CRUD de pelo menos 5 tabelas</span>
+      <span class="entregavel-badge">Obrigatório</span>
+      <span class="entregavel-chevron">▼</span>
+    </div>
+    <div class="entregavel-body">
+      <p>
+        A equipe deve implementar operações <strong>Create, Read, Update e Delete</strong> completas para no mínimo <strong>5 tabelas</strong> do modelo de banco de dados projetado. Cada tabela deve ser exposta como um recurso REST independente.
+      </p>
+
+      <h4>Para cada tabela, a equipe deve implementar:</h4>
+      <ul>
+        <li><strong>Entity</strong> — classe Java mapeada com JPA/Hibernate (<code>@Entity</code>, <code>@Table</code>, relacionamentos)</li>
+        <li><strong>Repository</strong> — interface que estende <code>JpaRepository</code> ou <code>CrudRepository</code></li>
+        <li><strong>Service</strong> — camada de regras de negócio (validações, tratamento de exceções)</li>
+        <li><strong>Controller</strong> — endpoints REST com os verbos HTTP corretos</li>
+      </ul>
+
+      <h4>Endpoints mínimos por recurso:</h4>
+      <ul>
+        <li><code>GET /recurso</code> — listar todos (com paginação, se possível)</li>
+        <li><code>GET /recurso/{id}</code> — buscar por ID</li>
+        <li><code>POST /recurso</code> — criar novo registro</li>
+        <li><code>PUT /recurso/{id}</code> — atualizar registro existente</li>
+        <li><code>DELETE /recurso/{id}</code> — remover registro</li>
+      </ul>
+
+      <div class="callout green" style="margin-top:1rem;">
+        <div class="callout-title">✅ Boa prática</div>
+        <p>Use DTOs (Data Transfer Objects) para separar a representação da API do modelo de banco de dados. Evite expor diretamente as entidades JPA nas respostas da API.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTREGÁVEL 2 -->
+  <div class="entregavel-card">
+    <div class="entregavel-header" onclick="toggleCard(this)">
+      <span class="entregavel-num">REQ 02</span>
+      <span class="entregavel-title">Consultas SQL Nativas — Relatórios e Análises</span>
+      <span class="entregavel-badge">Obrigatório</span>
+      <span class="entregavel-chevron">▼</span>
+    </div>
+    <div class="entregavel-body">
+      <p>
+        A equipe deve implementar <strong>pelo menos 6 consultas SQL nativas</strong> (usando <code>@Query(nativeQuery = true)</code> ou <code>EntityManager</code>), distribuídas entre os três níveis abaixo. As consultas devem ser relevantes ao domínio do sistema da equipe e inspiradas nos temas trabalhados nas listas de exercícios da disciplina.
+      </p>
+
+      <h4>Distribuição mínima das consultas:</h4>
+      <div class="consultas-grid">
+
+        <div class="consulta-item nivel-1">
+          <div class="consulta-label">Nível 1 — Básico (mín. 2)</div>
+          <div class="consulta-desc">JOINs entre tabelas, filtros com <code>WHERE</code>, ordenação e agrupamentos com <code>GROUP BY</code> / <code>HAVING</code></div>
+        </div>
+
+        <div class="consulta-item nivel-1">
+          <div class="consulta-label">Exemplo de tema</div>
+          <div class="consulta-desc">Relatório de registros com dados de tabelas relacionadas; contagem ou soma por categoria/grupo</div>
+        </div>
+
+        <div class="consulta-item nivel-2">
+          <div class="consulta-label">Nível 2 — Intermediário (mín. 2)</div>
+          <div class="consulta-desc">Subconsultas correlacionadas, <code>EXISTS</code> / <code>NOT EXISTS</code>, CTEs (<code>WITH</code>), ou Views chamadas via aplicação</div>
+        </div>
+
+        <div class="consulta-item nivel-2">
+          <div class="consulta-label">Exemplo de tema</div>
+          <div class="consulta-desc">Registros que nunca apareceram em uma associação; ranking dos itens mais frequentes em cada grupo</div>
+        </div>
+
+        <div class="consulta-item nivel-3">
+          <div class="consulta-label">Nível 3 — Avançado (mín. 2)</div>
+          <div class="consulta-desc">Window Functions (<code>RANK</code>, <code>ROW_NUMBER</code>, <code>LAG/LEAD</code>), chamadas a Stored Procedures, ou consultas com múltiplos CTEs encadeados</div>
+        </div>
+
+        <div class="consulta-item nivel-3">
+          <div class="consulta-label">Exemplo de tema</div>
+          <div class="consulta-desc">Ranking por partição (ex.: top 3 por categoria); evolução temporal com comparação de períodos; análise acumulada</div>
+        </div>
+
+      </div>
+
+      <h4>Temas de referência (das listas de exercícios da disciplina):</h4>
+      <ul>
+        <li>Relatórios com JOINs múltiplos e tradução de códigos numéricos (<code>CASE WHEN</code>)</li>
+        <li>Entidades sem associação — usando <code>NOT IN</code> vs. <code>NOT EXISTS</code></li>
+        <li>Item mais vendido / mais frequente por grupo (subconsulta correlacionada)</li>
+        <li>Ranking dentro de partições usando <code>RANK()</code> ou <code>DENSE_RANK()</code></li>
+        <li>Análise de evolução temporal com <code>LAG()</code> / acumulados com <code>SUM() OVER</code></li>
+        <li>Chamada de Stored Procedure via <code>@Procedure</code> ou <code>EntityManager</code></li>
+      </ul>
+
+      <div class="callout blue" style="margin-top:1rem;">
+        <div class="callout-title">🔗 Como implementar no Spring</div>
+        <p>
+          Use <code>@Query(value = "SELECT ...", nativeQuery = true)</code> no Repository para consultas simples, ou injete o <code>EntityManager</code> no Service para consultas dinâmicas com parâmetros variáveis. Cada consulta deve ser exposta em um endpoint <code>GET /recurso/relatorio/nome-do-relatorio</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTREGÁVEL 3 -->
+  <div class="entregavel-card">
+    <div class="entregavel-header" onclick="toggleCard(this)">
+      <span class="entregavel-num">REQ 03</span>
+      <span class="entregavel-title">Organização do Projeto e Boas Práticas</span>
+      <span class="entregavel-badge">Obrigatório</span>
+      <span class="entregavel-chevron">▼</span>
+    </div>
+    <div class="entregavel-body">
+      <p>O projeto deve seguir a estrutura padrão de um projeto Spring Boot organizado em camadas, com separação clara de responsabilidades.</p>
+
+      <h4>Estrutura de pacotes esperada:</h4>
+      <ul>
+        <li><code>br.uema.bd.entity</code> — classes JPA mapeando as tabelas</li>
+        <li><code>br.uema.bd.repository</code> — interfaces de acesso a dados</li>
+        <li><code>br.uema.bd.service</code> — lógica de negócio e validações</li>
+        <li><code>br.uema.bd.controller</code> — endpoints REST</li>
+        <li><code>br.uema.bd.dto</code> — objetos de transferência de dados (opcional, mas recomendado)</li>
+        <li><code>br.uema.bd.exception</code> — tratamento de exceções customizadas</li>
+      </ul>
+
+      <h4>Configuração mínima esperada:</h4>
+      <ul>
+        <li>Arquivo <code>application.properties</code> ou <code>application.yml</code> com datasource configurado</li>
+        <li>Tratamento de erros com respostas HTTP adequadas (<code>404</code>, <code>400</code>, <code>500</code>)</li>
+        <li>Repositório público no GitHub com <code>README.md</code> descrevendo o projeto e instruções de execução</li>
+      </ul>
+
+      <div class="callout rust" style="margin-top:1rem;">
+        <div class="callout-title">⚠️ Atenção</div>
+        <p>Não coloque credenciais de banco de dados no repositório. Use variáveis de ambiente ou o arquivo <code>application-local.properties</code> listado no <code>.gitignore</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTREGÁVEL 4 — Diferencial -->
+  <div class="entregavel-card">
+    <div class="entregavel-header" onclick="toggleCard(this)">
+      <span class="entregavel-num">REQ 04</span>
+      <span class="entregavel-title">Diferenciais (pontuação extra)</span>
+      <span class="entregavel-badge" style="background:var(--blue)">Opcional</span>
+      <span class="entregavel-chevron">▼</span>
+    </div>
+    <div class="entregavel-body">
+      <p>A implementação dos itens abaixo não é obrigatória, mas agrega pontos à nota final da equipe:</p>
+      <ul>
+        <li><strong>Paginação e ordenação</strong> nos endpoints de listagem usando <code>Pageable</code> do Spring Data</li>
+        <li><strong>Validação de entrada</strong> com Bean Validation (<code>@NotNull</code>, <code>@Size</code>, <code>@Email</code>, etc.)</li>
+        <li><strong>Stored Procedure chamada pela aplicação</strong> — usando <code>@Procedure</code> ou <code>CallableStatement</code></li>
+        <li><strong>Trigger demonstrado</strong> — o banco possui um trigger implementado e a equipe demonstra seu acionamento via chamada à API</li>
+        <li><strong>Documentação Swagger / OpenAPI</strong> — via <code>springdoc-openapi</code>, com a interface acessível em <code>/swagger-ui.html</code></li>
+        <li><strong>Testes de integração</strong> — pelo menos um teste por endpoint usando <code>@SpringBootTest</code> ou <code>MockMvc</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── AVALIAÇÃO ── -->
+  <div class="section-header">
+    <span class="section-num">03 —</span>
+    <h2>Critérios de Avaliação</h2>
+  </div>
+
+  <table class="rubrica">
+    <thead>
+      <tr>
+        <th>Critério</th>
+        <th>Descrição</th>
+        <th>Pontos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>CRUD das 5 entidades</strong></td>
+        <td>Todos os endpoints (GET, POST, PUT, DELETE) funcionando corretamente, com respostas HTTP adequadas e tratamento de erro</td>
+        <td>3,0 pts</td>
+      </tr>
+      <tr>
+        <td><strong>Consultas SQL nativas</strong></td>
+        <td>Mínimo de 6 consultas (2 básicas, 2 intermediárias, 2 avançadas), relevantes ao domínio, retornando resultados corretos via endpoint</td>
+        <td>3,0 pts</td>
+      </tr>
+      <tr>
+        <td><strong>Qualidade do código</strong></td>
+        <td>Separação em camadas (entity / repository / service / controller), uso de boas práticas, código legível e comentado</td>
+        <td>1,5 pts</td>
+      </tr>
+      <tr>
+        <td><strong>Repositório e documentação</strong></td>
+        <td>Repositório público no GitHub com README completo, histórico de commits significativo e instruções de execução</td>
+        <td>1,0 pt</td>
+      </tr>
+      <tr>
+        <td><strong>Apresentação</strong></td>
+        <td>Demonstração ao vivo da aplicação rodando, explicação das consultas implementadas e capacidade de responder perguntas sobre o código</td>
+        <td>1,5 pts</td>
+      </tr>
+      <tr>
+        <td><strong>Diferenciais</strong></td>
+        <td>Paginação, validação, Swagger, Stored Procedure/Trigger acionado via API, testes de integração</td>
+        <td>até 1,0 pt extra</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">Total</td>
+        <td>10,0 pts</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="callout rust">
+    <div class="callout-title">⚠️ Integridade acadêmica</div>
+    <p>
+      Durante a apresentação, qualquer membro da equipe poderá ser questionado sobre qualquer parte do código. Equipes que não conseguirem explicar o próprio código terão a nota reduzida proporcionalmente. O uso de IA como apoio ao desenvolvimento é permitido, desde que a equipe compreenda e saiba explicar o que foi produzido.
+    </p>
+  </div>
+
+  <!-- ── ENTREGA ── -->
+  <div class="section-header">
+    <span class="section-num">04 —</span>
+    <h2>Entregáveis e Prazos</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Definição das equipes</div>
+      <div class="tl-desc">Cada equipe de 3–4 integrantes deve confirmar sua composição e o modelo de banco de dados que será utilizado.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">Entrega do repositório (GitHub)</div>
+      <div class="tl-desc">Link do repositório público com o código completo, README e script SQL do banco (<code>schema.sql</code> + dados de teste). O repositório deve estar atualizado até a data combinada.</div>
+    </div>
+    <div class="tl-item final">
+      <div class="tl-date">Apresentação final</div>
+      <div class="tl-desc">Cada equipe terá <strong>15–20 minutos</strong> para demonstrar a aplicação ao vivo (API rodando localmente ou em servidor), apresentar as consultas implementadas e responder perguntas do professor.</div>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-title">📋 O que enviar</div>
+    <ul>
+      <li>Link do repositório GitHub (via formulário ou e-mail)</li>
+      <li>O repositório deve conter: código-fonte, <code>README.md</code>, <code>schema.sql</code> (DDL do banco) e um arquivo <code>dados.sql</code> com dados de exemplo suficientes para demonstrar as consultas</li>
+      <li>Opcional: link de um vídeo curto (até 3 min) demonstrando a aplicação, caso a equipe queira deixar registrado</li>
+    </ul>
+  </div>
+
+  <!-- ── DICAS TÉCNICAS ── -->
+  <div class="section-header">
+    <span class="section-num">05 —</span>
+    <h2>Dicas Técnicas</h2>
+  </div>
+
+  <div class="callout blue">
+    <div class="callout-title">🚀 Ponto de partida sugerido</div>
+    <ul>
+      <li>Gere o projeto em <a href="https://start.spring.io" target="_blank">start.spring.io</a> com as dependências: <strong>Spring Web</strong>, <strong>Spring Data JPA</strong>, <strong>MySQL Driver</strong></li>
+      <li>Configure o <code>application.properties</code> com <code>spring.jpa.hibernate.ddl-auto=validate</code> (o schema já existe) ou <code>none</code></li>
+      <li>Use o <code>@RestController</code> + <code>@RequestMapping</code> para organizar os endpoints por recurso</li>
+      <li>Teste os endpoints com <strong>Postman</strong>, <strong>Insomnia</strong> ou a extensão REST Client do VS Code antes da apresentação</li>
+    </ul>
+  </div>
+
+  <div class="callout purple">
+    <div class="callout-title">🗂️ Chamando SQL nativo no Spring</div>
+    <ul>
+      <li><strong>Via Repository:</strong> <code>@Query(value = "SELECT * FROM tabela WHERE ...", nativeQuery = true)</code></li>
+      <li><strong>Via EntityManager:</strong> <code>em.createNativeQuery("SELECT ...").getResultList()</code></li>
+      <li><strong>Stored Procedure:</strong> <code>@Procedure(procedureName = "nome_da_procedure")</code> no Repository, ou <code>StoredProcedureQuery</code> via EntityManager</li>
+      <li>Para retornar projeções de múltiplas tabelas, use uma <strong>interface de projeção</strong> ou <code>List&lt;Object[]&gt;</code> com mapeamento manual no Service</li>
+    </ul>
+  </div>
+
+</main>
+
+<footer>
+  <p>// Banco de Dados · Eng. da Computação · UEMA · Prof. Luís Carlos Costa Fonseca · Projeto Final</p>
+  <p style="margin-top:0.4rem; opacity:0.6;">Clique nos cards de requisitos para expandir os detalhes.</p>
+</footer>
+
+<script>
+  function toggleCard(header) {
+    const card = header.closest('.entregavel-card');
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
