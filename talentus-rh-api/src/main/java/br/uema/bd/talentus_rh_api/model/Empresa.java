@@ -1,4 +1,4 @@
-package br.uema.bd.talentus_rh_api.entity;
+package br.uema.bd.talentus_rh_api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
