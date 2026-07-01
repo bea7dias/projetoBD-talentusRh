@@ -29,4 +29,34 @@ public class EmpresaController {
     public ResponseEntity<List<Empresa>> listar() {
         return ResponseEntity.ok(service.listarTodas());
     }
+
+    // GET: Buscar a empresa pelo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Empresa> buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // PUT: Atualizar as informações da empresa
+    @PutMapping("/{id}")
+    public ResponseEntity<Empresa> atualizar(@PathVariable Long id, @RequestBody @Valid Empresa empresa) {
+        if (!service.buscarPorId(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        empresa.setId(id);
+        return ResponseEntity.ok(service.salvar(empresa));
+    }
+
+    // DELETE: Deletar uma empresa
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        if (!service.buscarPorId(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+
+
