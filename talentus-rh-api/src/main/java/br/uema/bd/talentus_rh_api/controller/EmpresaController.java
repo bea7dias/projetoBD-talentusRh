@@ -17,14 +17,14 @@ public class EmpresaController {
     @Autowired
     private EmpresaService service;
 
-    // POST: Criar uma empresa
+    //POST - Criar uma empresa
     @PostMapping
     public ResponseEntity<Empresa> criar(@RequestBody @Valid Empresa empresa) {
         Empresa novaEmpresa = service.salvar(empresa);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaEmpresa);
     }
 
-    // GET: Listar todas as empresas
+    //GET - Listar todas as empresas
     @GetMapping
     public ResponseEntity<List<Empresa>> listar() {
         return ResponseEntity.ok(service.listarTodas());
@@ -41,7 +41,7 @@ public class EmpresaController {
     // PUT: Atualizar as informações da empresa
     @PutMapping("/{id}")
     public ResponseEntity<Empresa> atualizar(@PathVariable Long id, @RequestBody @Valid Empresa empresa) {
-        if (!service.buscarPorId(id).isPresent()) {
+        if (service.buscarPorId(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         empresa.setId(id);
@@ -51,7 +51,7 @@ public class EmpresaController {
     // DELETE: Deletar uma empresa
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        if (!service.buscarPorId(id).isPresent()) {
+        if (service.buscarPorId(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         service.deletar(id);
