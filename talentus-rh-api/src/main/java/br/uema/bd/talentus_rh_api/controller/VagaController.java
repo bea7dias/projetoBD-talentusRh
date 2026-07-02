@@ -29,4 +29,32 @@ public class VagaController {
     public ResponseEntity<List<Vaga>> listar() {
         return ResponseEntity.ok(service.listarTodas());
     }
+
+    // GET: Buscar a vaga pelo ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Vaga> buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // PUT: Atualizar as informações da Vaga
+    @PutMapping("/{id}")
+    public ResponseEntity<Vaga> atualizar(@PathVariable Long id, @RequestBody @Valid Vaga vaga) {
+        if (service.buscarPorId(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        vaga.setId(id);
+        return ResponseEntity.ok(service.salvar(vaga));
+    }
+
+    // DELETE: Deletar uma vaga
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        if (service.buscarPorId(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
