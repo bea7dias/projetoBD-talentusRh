@@ -1,5 +1,6 @@
 package br.uema.bd.talentus_rh_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -44,11 +45,9 @@ public class Candidato {
     @Column(name = "pretensao_salarial", precision = 10, scale = 2)
     private BigDecimal pretensaoSalarial;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "Candidato_Experiencia",
-            joinColumns = @JoinColumn(name = "Candidato_id"),
-            inverseJoinColumns = @JoinColumn(name = "Experiencia_id")
-    )
-    private List<Experiencia> experiencias;
+    @OneToMany(mappedBy = "candidato",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonManagedReference
+    private List<CandidatoExperiencia> experiencias;
 }

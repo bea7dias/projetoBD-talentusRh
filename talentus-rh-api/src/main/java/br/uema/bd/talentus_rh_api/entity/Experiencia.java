@@ -1,5 +1,6 @@
 package br.uema.bd.talentus_rh_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -31,6 +32,7 @@ public class Experiencia {
     @Column(name = "descricao_experiencia", columnDefinition = "TEXT")
     private String descricaoExperiencia;
 
-    @ManyToMany(mappedBy = "experiencias", fetch = FetchType.LAZY)
-    private List<Candidato> candidatos;
+    @OneToMany(mappedBy = "experiencia")
+    @JsonIgnore
+    private List<CandidatoExperiencia> candidatos;
 }
