@@ -1,58 +1,70 @@
 # Talentus RH - Sistema de Gestão de Recursos Humanos
-  Esse sistema foi desenvolvido como uma atividade avaliativa para a disciplina de Banco de Dados do curso de Bacharelado em Engenharia da Computação da Universidade Estadual do Maranhão (UEMA).
+
+Este sistema foi desenvolvido como uma atividade avaliativa para a disciplina de Banco de Dados do curso de Bacharelado em Engenharia da Computação da Universidade Estadual do Maranhão (UEMA).
 
 ##### Autores: 
 - Anna Beatriz Dias Cardoso
 - Camila Luiza Silva Machado
 - Marcos Gabriel Silva Cordeiro
 
-### Descrição do projeto
+### 📄 Documentação do Projeto
+* **Documento Principal:** [Acessar documento completo no Google Docs](https://docs.google.com/document/d/13wkfDSgGlnWveZ8LfTvFapXwPpOjBqb2P9J6917QxQ4/edit?usp=sharing)
 
-O sistema "Talentus RH" tem como objetivo automatizar os processos de recrutamento e seleção de uma empresa de Recursos Humanod. O software permite o gerenciamento de empresas parceiras, vagas abertas, fluxo de candidaturas, controle de entrevistas e registro de contratações. 
+---
 
-### Funcionalidades principais (Requisitos funcionais)
-  #### Cadastros e gerenciamento
-  - **Empresas Parceiras:** Permite a inclusão, alteração e remoção de dados de empresas (CNPJ, nome, telefone, email, endereço).
-  - **Vagas:** Gerencia vagas associadas a empresas com status de aberta, fechada, suspensa, pausada.
-  - **Candidatos:** Cadastro de candidatos com informações como nome, email, CPF, telefone e pretensão salarial.
-  - **Experiências:** Permite a múltipla associação de experiências profissionais ao candidato.
-  - **Funcionários(Recrutadores):** Gerencia os profissionais internos responsáveis pelos processos seletivos.
+### Descrição do Projeto
 
-### Fluxo de Candidatura
-O sisema controla o processo em **três** etapas sequenciais:
-- **Triagem:** Entrada da candidatura, registro da data de interesse e geração do identificador único.
-- **Avaliação:** Registro de entrevistas, testes, notas e avaliação dos recrutadores.
-- **Fechamento:** Definição da aprovação ou reprovação do candidato. 
+O sistema **Talentus RH** tem como objetivo automatizar os processos de recrutamento e seleção de uma empresa de Recursos Humanos. O software permite o gerenciamento de empresas parceiras, vagas abertas, fluxo de candidaturas, controle de entrevistas e registro de contratações. 
 
-### Gestão de contratação e garantia
+### Tecnologia e Arquitetura
 
-- O sistema registra contratações com data de inicio , data de rescisão e prazo de garantia.
-- Automatiza a alteração do status da vaga.
-- Reabre vagas automaticamente caso o candidato seja demitido dentro do prazo de garantia. 
+* **Linguagem/Framework:** Java com Spring Boot
+* **Banco de Dados:** MySQL
+* **Arquitetura:** Projeto estruturado em camadas lógicas (`Entity`, `Repository`, `Service` e `Controller`), garantindo organização, legibilidade e separação de responsabilidades.
+* **Documentação da API:** Swagger (OpenAPI)
 
-### Relatórios disponíveis
+---
 
-- **Ficha de avaliação de entrevistas:** Dados do candidato e da vaga com campos para observações.
-- **Vagas críticas:** Identificar vagas abertas sem candidatos ou abaixo do minimo desejado.
-- **Produtividade de recrutadores:** Demonstrativo de entrevistas realizadas e candidatos aprovados por recrutador.
-- **Agenda de entrevistas:** Detalhamento de entrevistas por período e por funcionário.
-- **Garantia a vencer:** Relatório de contratos com prazos de garantia prestes a expirar. 
+### Funcionalidades Principais (Requisitos Funcionais)
 
-### Requisitos não funcionais
-- **Confiabilidade:** Recuperação de dados pós-falha e suporte a backups diários.
-- **Eficiência:** Consultas online com tempo de execução inferior a 5 segundos e impressão de relatórios em até 20 segundos.
-- **Portabilidade:** Execução em Windows 10/11 ou superior compatibilidade com bases de dados relacionais corporativas. 
-- **Escalabilidade:** Arquitetura flexível para suportar o crescimento da empresa e integração futura com novas tecnologiais. 
+#### Cadastros e Gerenciamento
+* **Empresas Parceiras:** Permite a inclusão, alteração e remoção de dados de empresas (CNPJ, nome, telefone, email, endereço).
+* **Vagas:** Gerencia vagas associadas a empresas com status de aberta, fechada, suspensa ou pausada.
+* **Candidatos:** Cadastro de candidatos com informações como nome, email, CPF, telefone e pretensão salarial.
+* **Experiências:** Permite a múltipla associação de experiências profissionais ao candidato.
+* **Funcionários (Recrutadores):** Gerencia os profissionais internos responsáveis pelos processos seletivos.
 
-### 🔗 Links Importantes
+#### Fluxo de Candidatura
+O sistema controla o processo em três etapas sequenciais:
+1.  **Triagem:** Entrada da candidatura, registro da data de interesse e geração do identificador único.
+2.  **Avaliação:** Registro de entrevistas, testes, notas e avaliação dos recrutadores.
+3.  **Fechamento:** Definição da aprovação ou reprovação do candidato. 
 
-- 📄 **Documentação do Projeto**:📎 [Acessar documento](https://docs.google.com/document/d/13wkfDSgGlnWveZ8LfTvFapXwPpOjBqb2P9J6917QxQ4/edit?usp=sharing)
-- 📬 **Informações de Contato**:  
-  - 👤 **Anna Beatriz** - [GitHub](https://github.com/annabeatriz)  
-  - 👤 **Erick Silva** - [GitHub](https://github.com/ericksilva)  
+#### Gestão de Contratação e Garantia
+* O sistema registra contratações com data de início, data de rescisão e prazo de garantia.
+* Automatiza a alteração do status da vaga conforme o andamento do processo.
+* Reabre vagas automaticamente caso o candidato seja demitido dentro do prazo de garantia estabelecido em contrato.
 
-  - ✉️ **Erick**: 📩 santoserick0031@gmail.com  
-  - ✉️ **Beatriz**: 📩 bia.dias.cardoso720@gmail.com
+---
 
+### Entregáveis de Banco de Dados
 
-- 📂 🔗 **[Repositório do Projeto](https://github.com/bea7dias/projetoBD-talentusRh.git)**
+*  **CRUD Completo:** Todos os endpoints (GET, POST, PUT, DELETE) funcionando corretamente, com respostas HTTP adequadas e tratamento de erro para as entidades do sistema.
+*  **Consultas SQL Nativas:** Implementação de no mínimo 6 consultas complexas mapeadas diretamente no banco, servindo aos seguintes relatórios do sistema:
+    * *Ficha de avaliação de entrevistas:* Dados do candidato e da vaga com campos para observações.
+    * *Vagas críticas:* Identificação de vagas abertas sem candidatos ou abaixo do mínimo desejado.
+    * *Produtividade de recrutadores:* Demonstrativo de entrevistas realizadas e candidatos aprovados por recrutador.
+    * *Agenda de entrevistas:* Detalhamento de entrevistas organizadas por período e por funcionário.
+    * *Garantia a vencer:* Relatório de contratos com prazos de garantia prestes a expirar.
+
+---
+
+## Instruções de Execução
+
+**1. Pré-requisitos**
+Certifique-se de ter as seguintes ferramentas instaladas e configuradas em sua máquina:
+* **Git**
+* **JDK 17** ou superior
+* **Maven**
+* **SGBD MySQL** 
+* **Uma Ide compatível com Java"**
