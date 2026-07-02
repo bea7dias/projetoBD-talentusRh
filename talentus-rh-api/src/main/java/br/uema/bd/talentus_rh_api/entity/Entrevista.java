@@ -1,15 +1,16 @@
 package br.uema.bd.talentus_rh_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Entrevista")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Entrevista {
@@ -20,10 +21,12 @@ public class Entrevista {
 
     @ManyToOne
     @JoinColumn(name = "id_funcionario", nullable = false)
+    @JsonIgnoreProperties("entrevistas")
     private Funcionario funcionario;
 
     @ManyToOne
     @JoinColumn(name = "id_candidatura", nullable = false)
+    @JsonIgnoreProperties("entrevistas")
     private Candidatura candidatura;
 
     @Column(name = "data_hora", nullable = false)

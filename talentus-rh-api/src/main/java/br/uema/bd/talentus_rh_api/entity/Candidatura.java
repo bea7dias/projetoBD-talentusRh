@@ -2,15 +2,16 @@ package br.uema.bd.talentus_rh_api.entity;
 
 import br.uema.bd.talentus_rh_api.enums.EtapaCandidatura;
 import br.uema.bd.talentus_rh_api.enums.ResultadoFinal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "Candidatura")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Candidatura {
@@ -21,10 +22,12 @@ public class Candidatura {
 
     @ManyToOne
     @JoinColumn(name = "id_candidato", nullable = false)
+    @JsonIgnoreProperties("candidaturas")
     private Candidato candidato;
 
     @ManyToOne
     @JoinColumn(name = "id_vaga", nullable = false)
+    @JsonIgnoreProperties("candidaturas")
     private Vaga vaga;
 
     @Column(name = "data_interesse", nullable = false)

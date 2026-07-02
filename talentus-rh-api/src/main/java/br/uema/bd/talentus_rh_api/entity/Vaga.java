@@ -1,14 +1,14 @@
 package br.uema.bd.talentus_rh_api.entity;
 
 import br.uema.bd.talentus_rh_api.enums.VagaStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "Vaga")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Vaga {
@@ -19,6 +19,7 @@ public class Vaga {
 
     @ManyToOne
     @JoinColumn(name = "id_empresa", nullable = false)
+    @JsonIgnoreProperties("vagas")
     private Empresa empresa;
 
     @Column(nullable = false, length = 60)
